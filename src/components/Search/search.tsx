@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from 'react';
+import { useEffect, type FC } from 'react';
 import {
   getAllCharacters,
   searchCharactersByName,
@@ -6,7 +6,7 @@ import {
   type Character,
 } from '../../services/api';
 import './search.css';
-import { getLS, saveLS } from '../../services/ls';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 type SearchProps = {
   onSearchResults: (characters: Character[]) => void;
@@ -19,7 +19,8 @@ export const Search: FC<SearchProps> = ({
   onLoading,
   onError,
 }) => {
-  const [searchedName, setSearchedName] = useState<string>(getLS());
+  const { searchedName, setSearchedName, saveLS } =
+    useLocalStorage('searchedChar');
 
   const getCharacters = async (name: string) => {
     onLoading(true);
