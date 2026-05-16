@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import { Api } from '../services/api';
+import * as Api from '../services/api';
 
 const itemArray = {
   results: [
