@@ -1,7 +1,12 @@
 import { useEffect, useState, type FC } from 'react';
-import { Api, type AllCharacters, type Character } from '../../services/api';
-import { LS } from '../../services/ls';
+import {
+  getAllCharacters,
+  searchCharactersByName,
+  type AllCharacters,
+  type Character,
+} from '../../services/api';
 import './search.css';
+import { getLS, saveLS } from '../../services/ls';
 
 type SearchProps = {
   onSearchResults: (characters: Character[]) => void;
@@ -14,7 +19,7 @@ export const Search: FC<SearchProps> = ({
   onLoading,
   onError,
 }) => {
-  const [searchedName, setSearchedName] = useState<string>(LS.getLS());
+  const [searchedName, setSearchedName] = useState<string>(getLS());
 
   const getCharacters = async (name: string) => {
     onLoading(true);
@@ -24,9 +29,9 @@ export const Search: FC<SearchProps> = ({
       let data: AllCharacters;
 
       if (name) {
-        data = await Api.searchCharactersByName(name);
+        data = await searchCharactersByName(name);
       } else {
-        data = await Api.getAllCharacters();
+        data = await getAllCharacters();
       }
 
       onSearchResults(data.results);
@@ -56,7 +61,7 @@ export const Search: FC<SearchProps> = ({
   const handleSearch = () => {
     const trimmedValue = searchedName.trim();
 
-    LS.saveLS(trimmedValue);
+    saveLS(trimmedValue);
     getCharacters(trimmedValue);
   };
 
