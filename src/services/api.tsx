@@ -85,3 +85,22 @@ export async function searchCharactersByName(
     throw error;
   }
 }
+
+export async function searchCharacterById(id: number): Promise<Character> {
+  const url = `https://rickandmortyapi.com/api/character/${id}`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const message = getErrorMessage(response.status);
+      throw new Error(message);
+    }
+
+    const data: Character = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Oops something went wrong:', error);
+    throw error;
+  }
+}

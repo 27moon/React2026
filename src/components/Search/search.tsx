@@ -77,11 +77,14 @@ export const Search = ({
     const trimmedValue = searchedName.trim();
 
     saveLS(trimmedValue);
+
     setActiveSearch(trimmedValue);
 
     setSearchParams((prev) => {
-      prev.set('page', '1');
-      return prev;
+      const params = new URLSearchParams(prev);
+
+      params.set('page', '1');
+      return params;
     });
   };
 

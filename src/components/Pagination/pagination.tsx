@@ -1,11 +1,12 @@
 import { useSearchParams } from 'react-router';
 import './pagination.css';
+import type { FC } from 'react';
 
 type PaginationProps = {
   totalPages: number;
 };
 
-export const Pagination = ({ totalPages }: PaginationProps) => {
+export const Pagination: FC<PaginationProps> = ({ totalPages }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const pageParam = Number(searchParams.get('page'));
 

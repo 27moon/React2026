@@ -1,0 +1,13 @@
+.containers-wrapper {
+  display: flex;
+}
+
+.left-side {
+  flex: 1;
+  padding: 1rem;
+}
+
+.left-side.dimmed {
+  opacity: 0.3;
+  cursor: pointer;
+}

@@ -1,31 +1,59 @@
-import { useState } from 'react';
+import { useState, type JSX } from 'react';
 import './App.css';
+
 import { Header } from './components/Header/header';
 import { Main } from './components/Main/main-section';
 import { type Character } from './services/api';
+import { Route, Routes } from 'react-router';
+import { DetailsBlock } from './components/DetailsBlock/detailsBlock';
 
-export const App = () => {
+export function App(): JSX.Element {
   const [characters, setCharacters] = useState<Character[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [totalPages, setTotalPages] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const handleLoading = (loading: boolean) => {
+    setLoading(loading);
+  };
+
+  const handleError = (error: string | null) => {
+    setError(error);
+  };
+
+  const handleResults = (characters: Character[]) => {
+    setCharacters(characters);
+  };
+
+  const handleTotalPages = (pages: number) => {
+    setTotalPages(pages);
+  };
 
   return (
-    <>
-      <Header
-        onSearchResults={setCharacters}
-        onLoading={setLoading}
-        onError={setError}
-        onTotalPages={setTotalPages}
-      />
-      <Main
-        results={characters}
-        loading={loading}
-        error={error}
-        totalPages={totalPages}
-      />
-    </>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <>
+            <Header
+              onSearchResults={handleResults}
+              onLoading={handleLoading}
+              onError={handleError}
+              onTotalPages={handleTotalPages}
+            />
+            <Main
+              results={characters}
+              loading={loading}
+              error={error}
+              totalPages={totalPages}
+            />
+          </>
+        }
+      >
+        <Route path="" element={<DetailsBlock />} />
+      </Route>
+      {/* <Route path="about" element={<About />} />
+      <Route path="*" element={<NotFound />} /> */}
+    </Routes>
   );
-};
-
-export default App;
+}

@@ -1,9 +1,11 @@
-import type { FC } from 'react';
 import type { Character } from '../../services/api';
 import { CardList } from '../CardList/cardList';
 import { Loader } from '../Loader/loader';
 import { ErrorButton } from '../ErrorButton/error-button';
 import { Pagination } from '../Pagination/pagination';
+import { Outlet, useSearchParams } from 'react-router';
+import './main-section.css';
+import type { FC } from 'react';
 
 type MainProps = {
   results: Character[];
@@ -18,6 +20,19 @@ export const Main: FC<MainProps> = ({
   error,
   totalPages,
 }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const detailsId = searchParams.get('details');
+
+  const handleCloseShowCard = () => {
+    if (!detailsId) {
+      return;
+    }
+    const params = new URLSearchParams(searchParams);
+
+    params.delete('details');
+    setSearchParams(params);
+  };
+
   if (error) {
     return (
       <main data-testid="main">
@@ -34,8 +49,18 @@ export const Main: FC<MainProps> = ({
   } else {
     return (
       <main data-testid="main">
-        <CardList characters={results} />
-        <Pagination totalPages={totalPages} />
+        <div className="containers-wrapper">
+          <div
+            className={`left-side ${detailsId ? 'dimmed' : ''}`}
+            onClick={handleCloseShowCard}
+          >
+            <CardList characters={results} />
+            <Pagination totalPages={totalPages} />
+          </div>
+          <div onClick={(e) => e.stopPropagation()}>
+            <Outlet />
+          </div>
+        </div>
         <ErrorButton />
       </main>
     );
