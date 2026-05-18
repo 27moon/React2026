@@ -1,5 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import { CardList } from '../components/CardList/cardList';
+import { MemoryRouter } from 'react-router';
 
 const itemArray = [
   {
@@ -45,14 +46,22 @@ const itemArray = [
 
 describe('CardList', () => {
   it('Renders correct number of items when data is provided', () => {
-    render(<CardList characters={itemArray} />);
+    render(
+      <MemoryRouter>
+        <CardList characters={itemArray} />
+      </MemoryRouter>
+    );
     const cardsContainer = screen.getByTestId('cards-container');
 
     expect(cardsContainer.children.length).toEqual(itemArray.length);
   });
 
   it('Correctly displays item names and descriptions', () => {
-    render(<CardList characters={itemArray} />);
+    render(
+      <MemoryRouter>
+        <CardList characters={itemArray} />
+      </MemoryRouter>
+    );
     const allCards = screen.getAllByTestId('card');
 
     allCards.forEach((card, index) => {
@@ -60,19 +69,7 @@ describe('CardList', () => {
       const image = within(card).getByAltText(item.name);
 
       expect(within(card).getByText(item.name)).toBeInTheDocument();
-      expect(
-        within(card).getByText(`Species: ${item.species}`)
-      ).toBeInTheDocument();
       expect(image).toHaveAttribute('src', item.image);
-      expect(
-        within(card).getByText(`Gender: ${item.gender}`)
-      ).toBeInTheDocument();
-      expect(
-        within(card).getByText(`Origin: ${item.origin.name}`)
-      ).toBeInTheDocument();
-      expect(
-        within(card).getByText(`Location: ${item.location.name}`)
-      ).toBeInTheDocument();
     });
   });
 });

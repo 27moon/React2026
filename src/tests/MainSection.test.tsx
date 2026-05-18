@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Main } from '../components/Main/main-section';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter, Route, Routes } from 'react-router';
 
 const itemArray = [
   {
@@ -80,5 +80,29 @@ describe('Main', () => {
     const cardsContainer = screen.getByTestId('cards-container');
 
     expect(cardsContainer.children.length).toEqual(itemArray.length);
+  });
+
+  it('Removes left side block on click', () => {
+    render(
+      <MemoryRouter initialEntries={['/?details=2']}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Main
+                results={itemArray}
+                loading={false}
+                error={null}
+                totalPages={1}
+              />
+            }
+          />
+        </Routes>
+      </MemoryRouter>
+    );
+    const cardsContainer = screen.getByTestId('cards-container').parentElement;
+
+    cardsContainer?.click();
+    expect(window.location.search).not.toContain('details');
   });
 });
