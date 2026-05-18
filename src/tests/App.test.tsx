@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import App from '../App';
+import { App } from '../App';
 import { Main } from '../components/Main/main-section';
 import { MemoryRouter } from 'react-router';
 

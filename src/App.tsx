@@ -7,6 +7,9 @@ import { type Character } from './services/api';
 import { Route, Routes } from 'react-router';
 import { DetailsBlock } from './components/DetailsBlock/detailsBlock';
 
+import { NotFound } from './components/pages/NotFound/not-found';
+import { About } from './components/pages/About/about';
+
 export function App(): JSX.Element {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(false);
@@ -52,8 +55,8 @@ export function App(): JSX.Element {
       >
         <Route path="" element={<DetailsBlock />} />
       </Route>
-      {/* <Route path="about" element={<About />} />
-      <Route path="*" element={<NotFound />} /> */}
+      <Route path="about" element={<About />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
