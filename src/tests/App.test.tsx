@@ -2,10 +2,15 @@ import { render, screen } from '@testing-library/react';
 
 import App from '../App';
 import { Main } from '../components/Main/main-section';
+import { MemoryRouter } from 'react-router';
 
 describe('App', () => {
   it('Renders header', async () => {
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
     const header = screen.getByText(
       /Search Rick and Morty characters by name/i
     );
@@ -14,7 +19,11 @@ describe('App', () => {
   });
 
   it('Renders main', async () => {
-    render(<Main results={[]} loading={false} error={null} />);
+    render(
+      <MemoryRouter>
+        <Main results={[]} loading={false} error={null} totalPages={1} />
+      </MemoryRouter>
+    );
     const main = screen.getByTestId(/main/i);
 
     expect(main).toBeInTheDocument();

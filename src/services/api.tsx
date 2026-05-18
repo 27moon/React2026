@@ -13,6 +13,9 @@ export type Character = {
 };
 
 export type AllCharacters = {
+  info: {
+    pages: number;
+  };
   results: Character[];
 };
 
@@ -41,8 +44,8 @@ function getErrorMessage(statusCode: number): string {
   }
 }
 
-export async function getAllCharacters(): Promise<AllCharacters> {
-  const url = 'https://rickandmortyapi.com/api/character';
+export async function getAllCharacters(page = 1): Promise<AllCharacters> {
+  const url = `https://rickandmortyapi.com/api/character/?page=${page}`;
 
   try {
     const response = await fetch(url);
@@ -61,10 +64,11 @@ export async function getAllCharacters(): Promise<AllCharacters> {
 }
 
 export async function searchCharactersByName(
-  name: string
+  name: string,
+  page = 1
 ): Promise<AllCharacters> {
   const searchedName = name.trim();
-  const url = `https://rickandmortyapi.com/api/character/?name=${searchedName}`;
+  const url = `https://rickandmortyapi.com/api/character/?name=${searchedName}&page=${page}`;
   try {
     const response = await fetch(url);
 

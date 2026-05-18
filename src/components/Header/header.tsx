@@ -6,12 +6,14 @@ type HeaderProps = {
   onSearchResults: (characters: Character[]) => void;
   onLoading: (loading: boolean) => void;
   onError: (error: string | null) => void;
+  onTotalPages: (pages: number) => void;
 };
 
 export const Header: FC<HeaderProps> = ({
   onSearchResults,
   onLoading,
   onError,
+  onTotalPages,
 }) => {
   return (
     <header>
@@ -20,6 +22,7 @@ export const Header: FC<HeaderProps> = ({
         onSearchResults={onSearchResults}
         onLoading={onLoading}
         onError={onError}
+        onTotalPages={onTotalPages}
       />
     </header>
   );

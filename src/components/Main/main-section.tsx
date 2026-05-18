@@ -3,14 +3,21 @@ import type { Character } from '../../services/api';
 import { CardList } from '../CardList/cardList';
 import { Loader } from '../Loader/loader';
 import { ErrorButton } from '../ErrorButton/error-button';
+import { Pagination } from '../Pagination/pagination';
 
 type MainProps = {
   results: Character[];
   loading: boolean;
   error: string | null;
+  totalPages: number;
 };
 
-export const Main: FC<MainProps> = ({ results, loading, error }) => {
+export const Main: FC<MainProps> = ({
+  results,
+  loading,
+  error,
+  totalPages,
+}) => {
   if (error) {
     return (
       <main data-testid="main">
@@ -28,6 +35,7 @@ export const Main: FC<MainProps> = ({ results, loading, error }) => {
     return (
       <main data-testid="main">
         <CardList characters={results} />
+        <Pagination totalPages={totalPages} />
         <ErrorButton />
       </main>
     );

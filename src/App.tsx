@@ -8,6 +8,7 @@ export const App = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   return (
     <>
@@ -15,8 +16,14 @@ export const App = () => {
         onSearchResults={setCharacters}
         onLoading={setLoading}
         onError={setError}
+        onTotalPages={setTotalPages}
       />
-      <Main results={characters} loading={loading} error={error} />
+      <Main
+        results={characters}
+        loading={loading}
+        error={error}
+        totalPages={totalPages}
+      />
     </>
   );
 };
