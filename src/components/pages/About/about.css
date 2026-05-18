@@ -1,0 +1,24 @@
+.img-logo {
+  width: 13.25rem;
+  height: 8.5rem;
+  border: none;
+  border-radius: 5px;
+
+  background-image: url('/icons/rs.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

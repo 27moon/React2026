@@ -1,6 +1,8 @@
 .card {
   background-color: #28282b;
   color: white;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .name {

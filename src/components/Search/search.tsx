@@ -1,92 +1,104 @@
-import { Component } from 'react';
-import { Api, type AllCharacters, type Character } from '../../services/api';
-import { LS } from '../../services/ls';
+import { useEffect, useState } from 'react';
+import {
+  getAllCharacters,
+  searchCharactersByName,
+  type AllCharacters,
+  type Character,
+} from '../../services/api';
+
 import './search.css';
+
+import { useSearchParams } from 'react-router';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 type SearchProps = {
   onSearchResults: (characters: Character[]) => void;
   onLoading: (loading: boolean) => void;
   onError: (error: string | null) => void;
+  onTotalPages: (pages: number) => void;
 };
 
-type SearchState = {
-  searchedName: string;
-  loading: boolean;
-  error: string | null;
-};
+export const Search = ({
+  onSearchResults,
+  onLoading,
+  onError,
+  onTotalPages,
+}: SearchProps) => {
+  const { searchedName, setSearchedName, saveLS } =
+    useLocalStorage('searchedChar');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-export class Search extends Component<SearchProps, SearchState> {
-  constructor(props: SearchProps) {
-    super(props);
-    this.state = {
-      searchedName: LS.getLS(),
-      loading: false,
-      error: null,
-    };
-  }
+  const pageParam = Number(searchParams.get('page'));
 
-  getCharacters = async (name: string) => {
-    this.setState({ loading: true, error: null });
-    this.props.onLoading(true);
-    this.props.onError(null);
+  const page = Number.isNaN(pageParam) || pageParam < 1 ? 1 : pageParam;
+
+  const [activeSearch, setActiveSearch] = useState(searchedName);
+
+  const getCharacters = async (name: string, page: number) => {
+    onLoading(true);
+    onError(null);
 
     try {
       let data: AllCharacters;
 
       if (name) {
-        data = await Api.searchCharactersByName(name);
+        data = await searchCharactersByName(name, page);
       } else {
-        data = await Api.getAllCharacters();
+        data = await getAllCharacters(page);
       }
 
-      this.props.onSearchResults(data.results);
+      onSearchResults(data.results);
+      onTotalPages(data.info.pages);
     } catch (error) {
-      if (error instanceof Error) {
-        this.setState({ error: error.message });
-        this.props.onError(error.message);
-      }
+      const message =
+        error instanceof Error ? error.message : 'An error occurred';
+
+      onError(message);
     } finally {
-      this.setState({ loading: false });
-      this.props.onLoading(false);
+      onLoading(false);
     }
   };
 
-  componentDidMount() {
-    this.getCharacters(this.state.searchedName);
-  }
+  useEffect(() => {
+    getCharacters(activeSearch, page);
+  }, [activeSearch, page]);
 
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchedName: e.target.value });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchedName(e.target.value);
   };
 
-  handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      this.handleSearch();
+      handleSearch();
     }
   };
 
-  handleSearch = () => {
-    const trimmedValue = this.state.searchedName.trim();
+  const handleSearch = () => {
+    const trimmedValue = searchedName.trim();
 
-    LS.saveLS(trimmedValue);
-    this.getCharacters(trimmedValue);
+    saveLS(trimmedValue);
+
+    setActiveSearch(trimmedValue);
+
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+
+      params.set('page', '1');
+      return params;
+    });
   };
 
-  render() {
-    const { searchedName } = this.state;
-
-    return (
-      <div>
-        <input
-          type="text"
-          value={searchedName}
-          onChange={this.handleInputChange}
-          onKeyDown={this.handleKeyDown}
-          placeholder="Search..."
-          className="input"
-        />
-        <button onClick={this.handleSearch}>Search</button>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <input
+        type="text"
+        value={searchedName}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        placeholder="Search..."
+        className="input"
+      />
+      <button onClick={handleSearch}>Search</button>
+    </div>
+  );
+};

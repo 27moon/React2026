@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Main } from '../components/Main/main-section';
+import { MemoryRouter, Route, Routes } from 'react-router';
 
 const itemArray = [
   {
@@ -45,22 +46,63 @@ const itemArray = [
 
 describe('Main', () => {
   it('Displays error message on error', () => {
-    render(<Main results={[]} loading={false} error={'no results'} />);
+    render(
+      <MemoryRouter>
+        <Main
+          results={[]}
+          loading={false}
+          error={'no results'}
+          totalPages={1}
+        />
+      </MemoryRouter>
+    );
 
     expect(screen.getByText('no results')).toBeInTheDocument();
   });
 
   it('Displays loading sign on loading', () => {
-    render(<Main results={[]} loading={true} error={null} />);
+    render(
+      <MemoryRouter>
+        <Main results={[]} loading={true} error={null} totalPages={1} />
+      </MemoryRouter>
+    );
     const gif = screen.getByAltText('loading');
 
     expect(gif).toBeInTheDocument();
   });
 
   it('Displays card list if there is no error or loading', () => {
-    render(<Main results={itemArray} loading={false} error={null} />);
+    render(
+      <MemoryRouter>
+        <Main results={itemArray} loading={false} error={null} totalPages={1} />
+      </MemoryRouter>
+    );
     const cardsContainer = screen.getByTestId('cards-container');
 
     expect(cardsContainer.children.length).toEqual(itemArray.length);
+  });
+
+  it('Removes left side block on click', () => {
+    render(
+      <MemoryRouter initialEntries={['/?details=2']}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Main
+                results={itemArray}
+                loading={false}
+                error={null}
+                totalPages={1}
+              />
+            }
+          />
+        </Routes>
+      </MemoryRouter>
+    );
+    const cardsContainer = screen.getByTestId('cards-container').parentElement;
+
+    cardsContainer?.click();
+    expect(window.location.search).not.toContain('details');
   });
 });

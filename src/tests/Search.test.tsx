@@ -1,16 +1,20 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { Search } from '../components/Search/search';
-import { Api } from '../services/api';
+import * as Api from '../services/api';
+import { MemoryRouter } from 'react-router';
 
 describe('Search', () => {
   it('Renders search input and search button', () => {
     render(
-      <Search
-        onSearchResults={() => {}}
-        onLoading={() => {}}
-        onError={() => {}}
-      />
+      <MemoryRouter>
+        <Search
+          onSearchResults={() => {}}
+          onLoading={() => {}}
+          onError={() => {}}
+          onTotalPages={() => {}}
+        />
+      </MemoryRouter>
     );
     const input = screen.getByPlaceholderText(/search/i);
     const buttonSearch = screen.getByRole('button', { name: /search/i });
@@ -22,11 +26,14 @@ describe('Search', () => {
   it('Displays previously saved search term from localStorage on mount', () => {
     localStorage.setItem('searchedChar', 'some character');
     render(
-      <Search
-        onSearchResults={() => {}}
-        onLoading={() => {}}
-        onError={() => {}}
-      />
+      <MemoryRouter>
+        <Search
+          onSearchResults={() => {}}
+          onLoading={() => {}}
+          onError={() => {}}
+          onTotalPages={() => {}}
+        />
+      </MemoryRouter>
     );
     const input = screen.getByPlaceholderText(/search/i);
 
@@ -36,11 +43,14 @@ describe('Search', () => {
   it('Shows empty input when no saved term exists', () => {
     localStorage.clear();
     render(
-      <Search
-        onSearchResults={() => {}}
-        onLoading={() => {}}
-        onError={() => {}}
-      />
+      <MemoryRouter>
+        <Search
+          onSearchResults={() => {}}
+          onLoading={() => {}}
+          onError={() => {}}
+          onTotalPages={() => {}}
+        />
+      </MemoryRouter>
     );
     const input = screen.getByPlaceholderText(/search/i);
 
@@ -49,11 +59,14 @@ describe('Search', () => {
 
   it('Updates input value when user types', () => {
     render(
-      <Search
-        onSearchResults={() => {}}
-        onLoading={() => {}}
-        onError={() => {}}
-      />
+      <MemoryRouter>
+        <Search
+          onSearchResults={() => {}}
+          onLoading={() => {}}
+          onError={() => {}}
+          onTotalPages={() => {}}
+        />
+      </MemoryRouter>
     );
     const input = screen.getByPlaceholderText(/search/i);
 
@@ -66,11 +79,14 @@ describe('Search', () => {
 
   it('Saves search term to localStorage when search button is clicked', () => {
     render(
-      <Search
-        onSearchResults={() => {}}
-        onLoading={() => {}}
-        onError={() => {}}
-      />
+      <MemoryRouter>
+        <Search
+          onSearchResults={() => {}}
+          onLoading={() => {}}
+          onError={() => {}}
+          onTotalPages={() => {}}
+        />
+      </MemoryRouter>
     );
     const input = screen.getByPlaceholderText(/search/i);
     const buttonSearch = screen.getByRole('button', { name: /search/i });
@@ -85,11 +101,14 @@ describe('Search', () => {
 
   it('Trims whitespace from search input before saving', () => {
     render(
-      <Search
-        onSearchResults={() => {}}
-        onLoading={() => {}}
-        onError={() => {}}
-      />
+      <MemoryRouter>
+        <Search
+          onSearchResults={() => {}}
+          onLoading={() => {}}
+          onError={() => {}}
+          onTotalPages={() => {}}
+        />
+      </MemoryRouter>
     );
     const input = screen.getByPlaceholderText(/search/i);
     const buttonSearch = screen.getByRole('button', { name: /search/i });
@@ -104,11 +123,14 @@ describe('Search', () => {
 
   it('Overwrites existing localStorage value when new search is performed', () => {
     render(
-      <Search
-        onSearchResults={() => {}}
-        onLoading={() => {}}
-        onError={() => {}}
-      />
+      <MemoryRouter>
+        <Search
+          onSearchResults={() => {}}
+          onLoading={() => {}}
+          onError={() => {}}
+          onTotalPages={() => {}}
+        />
+      </MemoryRouter>
     );
     localStorage.setItem('searchedChar', 'some character');
 
@@ -129,11 +151,14 @@ describe('Search', () => {
       new Error('Character not found.')
     );
     render(
-      <Search
-        onSearchResults={() => {}}
-        onLoading={() => {}}
-        onError={onError}
-      />
+      <MemoryRouter>
+        <Search
+          onSearchResults={() => {}}
+          onLoading={() => {}}
+          onError={onError}
+          onTotalPages={() => {}}
+        />
+      </MemoryRouter>
     );
 
     const input = screen.getByPlaceholderText(/search/i);
