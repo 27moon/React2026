@@ -11,28 +11,42 @@ export const createFormSchema = (countries: string[]) =>
           (v) => v[0] === v[0]?.toUpperCase(),
           'First letter must be uppercase'
         ),
-      age: z.coerce.number().min(0, 'Age cannot be negative'),
 
-      email: z.string().refine((email) => {
-        const [local, domain] = email.split('@');
+      age: z
+        .string()
+        .min(1, 'Age must be provided')
+        .regex(/^-?\d+$/, 'Only numbers')
+        .transform((val) => Number(val))
+        .refine((num) => num >= 0, 'Age cannot be negative'),
 
-        return (
-          email.includes('@') && local?.length > 0 && domain?.includes('.')
-        );
-      }, 'Invalid email'),
+      email: z
+        .string()
+        .min(1, 'Email must be provided')
+
+        .refine((email) => {
+          const parts = email.split('@');
+          return parts.length === 2;
+        }, 'Email must contain exactly one @')
+
+        .refine((email) => {
+          const [localPart] = email.split('@');
+          return localPart.length > 0;
+        }, 'Email local part cannot be empty')
+
+        .refine((email) => {
+          const [, domainPart] = email.split('@');
+          return domainPart && domainPart.includes('.');
+        }, 'Email domain must contain a dot'),
 
       gender: z.string().min(1, 'Gender is required'),
 
       country: z
         .string()
-        .refine(
-          (val) => countries.includes(val),
-          'The country is not available'
-        ),
+        .refine((val) => countries.includes(val), 'Country is required'),
 
-      password: z.string().min(1, 'Password required'),
+      password: z.string().min(1, 'Password must be provided'),
 
-      confirmPassword: z.string(),
+      confirmPassword: z.string().min(1, 'Please confirm the password'),
 
       terms: z.literal(true, {
         message: 'You must accept terms',
