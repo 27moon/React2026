@@ -1,0 +1,23 @@
+import { useAppSelector } from '../../store/hooks';
+import { Card } from './Card';
+import './Dashboard.css';
+
+export const Dashboard = () => {
+  const submissions = useAppSelector((state) => state.formData.data);
+
+  return (
+    <div className="dashboard">
+      <h2>Submitted Forms</h2>
+
+      {submissions.length === 0 ? (
+        <p>No submissions yet</p>
+      ) : (
+        <div className="card-grid">
+          {submissions.map((item, index) => (
+            <Card key={index} item={item} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
