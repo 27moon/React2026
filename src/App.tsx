@@ -6,6 +6,7 @@ import { Modal } from './components/ui/modal/Modal';
 import { useModal } from './hooks/useModal';
 import { UncontrolledForm } from './components/forms/uncontrolledForm/UncontrolledForm';
 import { RHFForm } from './components/forms/rhfForm/rhfForm';
+import { Dashboard } from './components/dashboard/Dashboard';
 
 function App() {
   const { open, formType, openModal, closeModal } = useModal();
@@ -13,10 +14,12 @@ function App() {
   return (
     <Layout className="app-layout">
       <Header onOpen={openModal} />
-
+      <Dashboard />
       <Modal open={open} onClose={closeModal}>
-        {formType === 'uncontrolled' && <UncontrolledForm />}
-        {formType === 'rhf' && <RHFForm />}
+        {formType === 'uncontrolled' && (
+          <UncontrolledForm onClose={closeModal} />
+        )}
+        {formType === 'rhf' && <RHFForm onClose={closeModal} />}
       </Modal>
     </Layout>
   );

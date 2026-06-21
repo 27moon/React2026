@@ -1,20 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
-export type FormData = {
-  formType: 'uncontrolled' | 'rhf';
-  name: string;
-  age: number;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: string;
-  terms: boolean;
-  country: string;
-  image: string;
-};
+import type { FormSubmission } from '../components/types/types';
 
 type FormDataState = {
-  data: FormData[];
+  data: FormSubmission[];
 };
 
 const initialState: FormDataState = {
@@ -25,7 +13,7 @@ const FormDataSlice = createSlice({
   name: 'submissions',
   initialState,
   reducers: {
-    saveFormData: (state, action: PayloadAction<FormData>) => {
+    saveFormData: (state, action: PayloadAction<FormSubmission>) => {
       state.data.push(action.payload);
     },
   },
