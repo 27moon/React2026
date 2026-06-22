@@ -1,12 +1,9 @@
 import '../index.css';
 import '../colors.css';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
-import ContextProvider from '../context/contextProvider';
+import Providers from './providers';
 
 export const metadata = {
-  title: 'App',
-  description: 'Migrated to Next.js App Router',
+  title: 'Search App',
 };
 
 export default function RootLayout({
@@ -17,9 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Provider store={store}>
-          <ContextProvider>{children}</ContextProvider>
-        </Provider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

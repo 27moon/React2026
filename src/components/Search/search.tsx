@@ -1,15 +1,20 @@
-import { useContext, useState } from 'react';
+'use client';
+
+import { useContext, useEffect, useState } from 'react';
+import './search.css';
+
+import { useLocalStorage } from '../../hooks/lsHook';
+import { ThemeContext } from '../../context/themeContext';
+
+import { useSearchParams, useRouter } from 'next/navigation';
+
 import { getErrorMessage } from '../../services/functions';
 import { type Character } from '../../services/types';
-import './search.css';
-import { useLocalStorage } from '../../hooks/lsHook';
-import { useSearchParams } from 'react-router';
-import { ThemeContext } from '../../context/themeContext';
+
 import {
   useGetAllCharactersQuery,
   useSearchCharactersByNameQuery,
 } from '../../services/apiRTK';
-import { useEffect } from 'react';
 
 type SearchProps = {
   onSearchResults: (characters: Character[]) => void;
@@ -25,13 +30,16 @@ export function Search({
   onTotalPages,
 }: SearchProps) {
   const { searchedName, setSearchedName, saveLS } = useLocalStorage();
-  const [searchParams, setSearchParams] = useSearchParams();
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const page = Number(searchParams.get('page')) || 1;
 
   const context = useContext(ThemeContext);
 
   if (!context) {
-    throw new Error('Pagination must be used within ThemeProvider');
+    throw new Error('ThemeContext must be used within ThemeProvider');
   }
 
   const { theme } = context;
@@ -46,8 +54,9 @@ export function Search({
   );
 
   const getAll = useGetAllCharactersQuery(page, {
-    skip: trimmedFiredName ? true : false,
+    skip: !!trimmedFiredName,
   });
+
   const data = trimmedFiredName ? searchByName.data : getAll.data;
   const error = trimmedFiredName ? searchByName.error : getAll.error;
   const isFetching = trimmedFiredName
@@ -94,25 +103,30 @@ export function Search({
     const trimmedValue = searchedName.trim();
 
     saveLS(trimmedValue);
-    setSearchParams({ page: '1' });
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', '1');
+
+    router.push(`/?${params.toString()}`);
+
     setSearchTriggeredName(trimmedValue);
   };
 
   return (
-    <>
-      <div>
-        <input
-          type="text"
-          value={searchedName}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          placeholder="Search..."
-          className="input"
-        />
-        <button onClick={handleSearch} className={`btn-search ${theme}`}>
-          Search
-        </button>
-      </div>
+    <div>
+      <input
+        type="text"
+        value={searchedName}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        placeholder="Search..."
+        className="input"
+      />
+
+      <button onClick={handleSearch} className={`btn-search ${theme}`}>
+        Search
+      </button>
+
       <button
         onClick={() => {
           if (trimmedFiredName) {
@@ -124,6 +138,6 @@ export function Search({
       >
         refetch
       </button>
-    </>
+    </div>
   );
 }

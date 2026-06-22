@@ -1,4 +1,6 @@
-import { useState, type ReactNode } from 'react';
+'use client';
+
+import { useEffect, useState, type ReactNode } from 'react';
 import { ThemeContext } from './themeContext';
 
 interface ContextProviderProps {
@@ -7,15 +9,22 @@ interface ContextProviderProps {
 
 export default function ContextProvider({ children }: ContextProviderProps) {
   const themeKey = 'theme27moon';
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  useEffect(() => {
     const savedTheme = localStorage.getItem(themeKey);
-    return savedTheme === 'dark' ? 'dark' : 'light';
-  });
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+      setTheme(savedTheme);
+    }
+  }, []);
 
   const toggleTheme = () => {
-    const themeToBe = theme === 'light' ? 'dark' : 'light';
-    setTheme(themeToBe);
-    localStorage.setItem(themeKey, themeToBe);
+    setTheme((prev) => {
+      const next = prev === 'light' ? 'dark' : 'light';
+      localStorage.setItem(themeKey, next);
+      return next;
+    });
   };
 
   return (

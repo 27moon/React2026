@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/themeContext';
-import '/src/colors.css';
-import './themeButton.css';
+import '../../colors.css';
 
 export default function ThemeButton() {
   const context = useContext(ThemeContext);

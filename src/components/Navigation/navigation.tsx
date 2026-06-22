@@ -1,4 +1,6 @@
-import { Link } from 'react-router';
+'use client';
+
+import Link from 'next/link';
 import './navigation.css';
 
 type Props = {
@@ -9,18 +11,16 @@ type Props = {
 
 export default function Navigation({ items }: Props) {
   return (
-    <>
-      <nav className={'nav-menu'}>
-        <ul>
-          {items.map((item) => (
-            <li key={item} className={`li-menu`}>
-              <Link className="nav-link" to={`/${item}`}>
-                {item}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </>
+    <nav className="nav-menu">
+      <ul>
+        {items.map((item) => (
+          <li key={item} className="li-menu">
+            <Link className="nav-link" href={`/${item.toLowerCase()}`}>
+              {item}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }

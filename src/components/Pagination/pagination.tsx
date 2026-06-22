@@ -1,15 +1,20 @@
-import { useSearchParams } from 'react-router';
+'use client';
+
 import './pagination.css';
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/themeContext';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 type PaginationProps = {
   totalPages: number;
 };
 
 export function Pagination({ totalPages }: PaginationProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const currentPage = Number(searchParams.get('page')) || 1;
+
   const context = useContext(ThemeContext);
 
   if (!context) {
@@ -19,8 +24,10 @@ export function Pagination({ totalPages }: PaginationProps) {
   const { theme } = context;
 
   const handlePageChange = (newPage: number) => {
-    searchParams.set('page', newPage.toString());
-    setSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', String(newPage));
+
+    router.push(`/?${params.toString()}`);
   };
 
   return (
@@ -32,9 +39,11 @@ export function Pagination({ totalPages }: PaginationProps) {
       >
         Prev
       </button>
+
       <div>
-        {`${currentPage} `} / {`${totalPages}`}
+        {currentPage} / {totalPages}
       </div>
+
       <button
         disabled={currentPage >= totalPages}
         className={`${currentPage >= totalPages ? 'btn-disabled' : 'btn-active'} ${theme}`}

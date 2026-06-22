@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { Header } from '../components/Header/header';
 import { Main } from '../components/Main/main-section';
-import { DetailsBlock } from '../components/DetailsBlock/detailsBlock';
 import { type Character } from '../services/types';
 
 export default function Page() {
@@ -27,8 +26,6 @@ export default function Page() {
         error={error}
         totalPages={totalPages}
       />
-
-      <DetailsBlock />
     </>
   );
 }
