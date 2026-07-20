@@ -11,13 +11,12 @@ export const SelectField = ({
   id,
   label,
   options,
-  inputRef,
   ...props
 }: SelectFieldProps) => {
   return (
     <div>
       <label htmlFor={id}>{label}</label>
-      <select id={id} ref={inputRef} {...props}>
+      <select id={id} {...props}>
         <option value="">Select gender</option>
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>

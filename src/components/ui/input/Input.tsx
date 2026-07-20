@@ -5,7 +5,6 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
   className?: string;
-  inputRef?: React.Ref<HTMLInputElement>;
 }
 
 export const Input = ({
@@ -13,13 +12,12 @@ export const Input = ({
   label,
   error,
   className,
-  inputRef,
   ...props
 }: InputProps) => {
   return (
     <div className={className}>
       <label htmlFor={id}>{label}</label>
-      <input id={id} ref={inputRef} {...props} />
+      <input id={id} {...props} />
       {error && <p id={`${id}-error`}>{error}</p>}
     </div>
   );

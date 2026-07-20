@@ -13,14 +13,13 @@ export const CountryField = ({
   label,
   countries,
   error,
-  inputRef,
   ...props
 }: CountryFieldProps) => {
   const datalistId = `${id}-countries`;
   return (
     <div className="country-field">
       <label htmlFor={id}>{label}</label>
-      <input id={id} ref={inputRef} list={datalistId} {...props} />
+      <input id={id} list={datalistId} {...props} />
       <datalist id={datalistId}>
         {countries.map((country) => (
           <option key={country} value={country} />
