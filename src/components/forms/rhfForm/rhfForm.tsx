@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { saveFormData } from '../../../store/formDataSlice';
 import { convertFileToBase64 } from '../../../utils/imageConverter';
 import type { z } from 'zod';
+import { selectCountriesList } from '../../../store/countriesSlice';
 
 type RHFFormProps = {
   onClose: () => void;
@@ -20,7 +21,7 @@ type RHFFormProps = {
 
 export const RHFForm = ({ onClose }: RHFFormProps) => {
   const dispatch = useAppDispatch();
-  const countries = useAppSelector((state) => state.countries.list);
+  const countries = useAppSelector(selectCountriesList);
 
   const schema = createFormSchema(countries);
   type FormValues = z.infer<typeof schema>;

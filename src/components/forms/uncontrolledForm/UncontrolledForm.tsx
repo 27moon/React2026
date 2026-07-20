@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { PasswordStrengthIndicator } from '../../ui/passwordStrengthIndicator/PasswordStrengthIndicator';
 import { convertFileToBase64 } from '../../../utils/imageConverter';
 import { saveFormData } from '../../../store/formDataSlice';
+import { selectCountriesList } from '../../../store/countriesSlice';
 
 type UncontrolledFormProps = {
   onClose: () => void;
@@ -19,9 +20,10 @@ export const UncontrolledForm = ({ onClose }: UncontrolledFormProps) => {
   const [passwordValue, setPasswordValue] = useState('');
 
   const dispatch = useAppDispatch();
-  const countries = useAppSelector((state) => state.countries.list);
+  const countries = useAppSelector(selectCountriesList);
 
-  const schema = createFormSchema(countries);
+  const mutableCountries = countries;
+  const schema = createFormSchema(mutableCountries);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

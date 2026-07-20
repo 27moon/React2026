@@ -1,9 +1,10 @@
+import { selectSubmissions } from '../../store/formDataSlice';
 import { useAppSelector } from '../../store/hooks';
 import { Card } from './Card';
 import './Dashboard.css';
 
 export const Dashboard = () => {
-  const submissions = useAppSelector((state) => state.formData.data);
+  const submissions = useAppSelector(selectSubmissions);
 
   return (
     <div className="dashboard">

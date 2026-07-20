@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { FormSubmission } from '../types/types';
+import type { RootState } from './store';
 
 type FormDataState = {
   data: FormSubmission[];
@@ -22,3 +23,5 @@ const FormDataSlice = createSlice({
 export const { saveFormData } = FormDataSlice.actions;
 
 export const FormDataSliceReducer = FormDataSlice.reducer;
+
+export const selectSubmissions = (state: RootState) => state.formData.data;
