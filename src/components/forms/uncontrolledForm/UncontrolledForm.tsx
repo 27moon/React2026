@@ -76,7 +76,6 @@ export const UncontrolledForm = ({ onClose }: UncontrolledFormProps) => {
       };
 
       dispatch(saveFormData(finalPayload));
-      console.log('SAVED TO REDUX:', finalPayload);
 
       formRef.current?.reset();
       setPasswordValue('');
