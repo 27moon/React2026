@@ -1,4 +1,9 @@
 import { z } from 'zod';
+import {
+  ALLOWED_IMAGE_TYPES,
+  MAX_IMAGE_SIZE_BYTES,
+  MAX_IMAGE_SIZE_MB,
+} from '../utils/constants';
 
 export const createFormSchema = (countries: readonly string[]) =>
   z
@@ -62,7 +67,7 @@ export const createFormSchema = (countries: readonly string[]) =>
             const file = files?.[0];
             return (
               file &&
-              ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)
+              (ALLOWED_IMAGE_TYPES as readonly string[]).includes(file.type)
             );
           },
           {
@@ -72,10 +77,10 @@ export const createFormSchema = (countries: readonly string[]) =>
         .refine(
           (files) => {
             const file = files?.[0];
-            return file && file.size <= 2 * 1024 * 1024;
+            return file && file.size <= MAX_IMAGE_SIZE_BYTES;
           },
           {
-            message: 'Image must be under 2MB',
+            message: `Image must be under ${MAX_IMAGE_SIZE_MB}MB`,
           }
         ),
     })
