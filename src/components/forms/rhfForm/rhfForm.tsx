@@ -53,21 +53,25 @@ export const RHFForm = ({ onClose }: RHFFormProps) => {
   });
 
   const onSubmit = async (data: FormValues) => {
-    const file = data.image?.[0];
-    const base64 = file ? await convertFileToBase64(file) : '';
+    try {
+      const file = data.image?.[0];
+      const base64 = file ? await convertFileToBase64(file) : '';
 
-    const payload = {
-      ...data,
-      age: Number(data.age),
-      image: base64,
-      formType: 'rhf' as const,
-    };
+      const payload = {
+        ...data,
+        age: Number(data.age),
+        image: base64,
+        formType: 'rhf' as const,
+      };
 
-    dispatch(saveFormData(payload));
+      dispatch(saveFormData(payload));
 
-    reset();
-    setPasswordValue('');
-    onClose();
+      reset();
+      setPasswordValue('');
+      onClose();
+    } catch (error) {
+      console.error('File conversion failed:', error);
+    }
   };
 
   return (
