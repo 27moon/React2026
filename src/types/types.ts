@@ -7,6 +7,7 @@ type BaseForm = {
   password: string;
   confirmPassword: string;
   terms: boolean;
+  id: string;
 };
 
 export type FormValues = BaseForm & {

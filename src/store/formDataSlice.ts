@@ -14,8 +14,18 @@ const FormDataSlice = createSlice({
   name: 'submissions',
   initialState,
   reducers: {
-    saveFormData: (state, action: PayloadAction<FormSubmission>) => {
-      state.data.push(action.payload);
+    saveFormData: {
+      reducer: (state, action: PayloadAction<FormSubmission>) => {
+        state.data.push(action.payload);
+      },
+      prepare: (payload: Omit<FormSubmission, 'id'>) => {
+        return {
+          payload: {
+            ...payload,
+            id: crypto.randomUUID(),
+          } as FormSubmission,
+        };
+      },
     },
   },
 });

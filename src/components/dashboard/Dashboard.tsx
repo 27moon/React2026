@@ -14,8 +14,8 @@ export const Dashboard = () => {
         <p>No submissions yet</p>
       ) : (
         <div className="card-grid">
-          {submissions.map((item, index) => (
-            <Card key={index} item={item} />
+          {submissions.map((item) => (
+            <Card key={item.id} item={item} />
           ))}
         </div>
       )}
