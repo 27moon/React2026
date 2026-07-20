@@ -4,6 +4,7 @@ export type PasswordStrength = {
   hasLower: boolean;
   hasSpecial: boolean;
   isValid: boolean;
+  passedRulesCount: number;
 };
 
 export const checkPasswordStrength = (password: string): PasswordStrength => {
@@ -19,11 +20,16 @@ export const checkPasswordStrength = (password: string): PasswordStrength => {
       !(c >= 'a' && c <= 'z')
   );
 
+  const passedRulesCount = [hasNumber, hasUpper, hasLower, hasSpecial].filter(
+    Boolean
+  ).length;
+
   return {
     hasNumber,
     hasUpper,
     hasLower,
     hasSpecial,
     isValid: hasNumber && hasUpper && hasLower && hasSpecial,
+    passedRulesCount,
   };
 };

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { checkPasswordStrength } from '../../../schemas/checkPasswordStrength';
 
 type PasswordStrengthIndicatorProps = {
   passwordValue: string;
@@ -8,40 +9,26 @@ export const PasswordStrengthIndicator = ({
   passwordValue,
 }: PasswordStrengthIndicatorProps) => {
   const { strengthMetrics, textStatus, statusColor } = useMemo(() => {
-    const chars = passwordValue.split('');
-
-    const hasNumber = chars.some((c) => c >= '0' && c <= '9');
-    const hasUpper = chars.some((c) => c >= 'A' && c <= 'Z');
-    const hasLower = chars.some((c) => c >= 'a' && c <= 'z');
-    const hasSpecial = chars.some(
-      (c) =>
-        !(c >= '0' && c <= '9') &&
-        !(c >= 'A' && c <= 'Z') &&
-        !(c >= 'a' && c <= 'z')
-    );
-
-    const passedRulesCount = [hasNumber, hasUpper, hasLower, hasSpecial].filter(
-      Boolean
-    ).length;
+    const metrics = checkPasswordStrength(passwordValue);
 
     let textStatus = 'Empty';
     let statusColor = '#6c757d';
 
     if (passwordValue.length > 0) {
-      if (passedRulesCount <= 2) {
+      if (metrics.passedRulesCount <= 2) {
         textStatus = 'Weak';
         statusColor = '#dc3545';
-      } else if (passedRulesCount === 3) {
+      } else if (metrics.passedRulesCount === 3) {
         textStatus = 'Average';
         statusColor = '#ffc107';
-      } else if (passedRulesCount === 4) {
+      } else if (metrics.passedRulesCount === 4) {
         textStatus = 'Strong';
         statusColor = '#198754';
       }
     }
 
     return {
-      strengthMetrics: { hasNumber, hasUpper, hasLower, hasSpecial },
+      strengthMetrics: metrics,
       textStatus,
       statusColor,
     };

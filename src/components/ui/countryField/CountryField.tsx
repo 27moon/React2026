@@ -3,7 +3,7 @@ import React from 'react';
 type CountryFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   id: string;
   label: string;
-  countries: string[];
+  countries: readonly string[];
   error?: string;
   inputRef?: React.Ref<HTMLInputElement>;
 };

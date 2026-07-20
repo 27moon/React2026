@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const createFormSchema = (countries: string[]) =>
+export const createFormSchema = (countries: readonly string[]) =>
   z
     .object({
       formType: z.enum(['uncontrolled', 'rhf']),
