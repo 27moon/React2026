@@ -7,7 +7,7 @@ type PasswordStrengthIndicatorProps = {
 
 export const PasswordStrengthIndicator = ({
   passwordValue,
-}: PasswordStrengthIndicatorProps) => {
+}: Readonly<PasswordStrengthIndicatorProps>) => {
   const { strengthMetrics, textStatus, statusColor } = useMemo(() => {
     const metrics = checkPasswordStrength(passwordValue);
 

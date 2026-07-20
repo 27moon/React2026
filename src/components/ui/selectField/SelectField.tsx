@@ -12,7 +12,7 @@ export const SelectField = ({
   label,
   options,
   ...props
-}: SelectFieldProps) => {
+}: Readonly<SelectFieldProps>) => {
   return (
     <div>
       <label htmlFor={id}>{label}</label>

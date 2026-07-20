@@ -8,7 +8,7 @@ type ModalProps = {
   children: React.ReactNode;
 };
 
-export const Modal = ({ open, onClose, children }: ModalProps) => {
+export const Modal = ({ open, onClose, children }: Readonly<ModalProps>) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

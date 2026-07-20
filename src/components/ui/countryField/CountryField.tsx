@@ -14,7 +14,7 @@ export const CountryField = ({
   countries,
   error,
   ...props
-}: CountryFieldProps) => {
+}: Readonly<CountryFieldProps>) => {
   const datalistId = `${id}-countries`;
   return (
     <div className="country-field">

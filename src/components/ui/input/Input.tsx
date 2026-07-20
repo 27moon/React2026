@@ -13,7 +13,7 @@ export const Input = ({
   error,
   className,
   ...props
-}: InputProps) => {
+}: Readonly<InputProps>) => {
   return (
     <div className={className}>
       <label htmlFor={id}>{label}</label>

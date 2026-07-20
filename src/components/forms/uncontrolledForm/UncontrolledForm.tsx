@@ -15,7 +15,9 @@ type UncontrolledFormProps = {
   onClose: () => void;
 };
 
-export const UncontrolledForm = ({ onClose }: UncontrolledFormProps) => {
+export const UncontrolledForm = ({
+  onClose,
+}: Readonly<UncontrolledFormProps>) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [passwordValue, setPasswordValue] = useState('');

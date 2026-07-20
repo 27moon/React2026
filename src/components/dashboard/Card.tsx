@@ -14,7 +14,7 @@ type CardProps = {
   item: Submission;
 };
 
-export const Card = ({ item }: CardProps) => {
+export const Card = ({ item }: Readonly<CardProps>) => {
   const fields = [
     { label: 'Age', value: item.age },
     { label: 'Email', value: item.email },

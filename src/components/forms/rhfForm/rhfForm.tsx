@@ -20,7 +20,7 @@ type RHFFormProps = {
   onClose: () => void;
 };
 
-export const RHFForm = ({ onClose }: RHFFormProps) => {
+export const RHFForm = ({ onClose }: Readonly<RHFFormProps>) => {
   const dispatch = useAppDispatch();
   const countries = useAppSelector(selectCountriesList);
 

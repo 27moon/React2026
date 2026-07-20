@@ -6,7 +6,7 @@ type HeaderProps = {
   onOpen: (type: FormType) => void;
 };
 
-export const Header = ({ onOpen }: HeaderProps) => {
+export const Header = ({ onOpen }: Readonly<HeaderProps>) => {
   const handleUncontrolledClick = () => onOpen('uncontrolled');
   const handleRHFClick = () => onOpen('rhf');
   return (
