@@ -14,6 +14,7 @@ import { saveFormData } from '../../../store/formDataSlice';
 import { convertFileToBase64 } from '../../../utils/imageConverter';
 import type { z } from 'zod';
 import { selectCountriesList } from '../../../store/countriesSlice';
+import { GENDER_OPTIONS } from '../../../utils/constants';
 
 type RHFFormProps = {
   onClose: () => void;
@@ -98,10 +99,7 @@ export const RHFForm = ({ onClose }: RHFFormProps) => {
       <SelectField
         id="gender"
         label="Gender"
-        options={[
-          { value: 'male', label: 'Male' },
-          { value: 'female', label: 'Female' },
-        ]}
+        options={GENDER_OPTIONS}
         {...register('gender')}
       />
 

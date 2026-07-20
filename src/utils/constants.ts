@@ -249,3 +249,8 @@ export const countryList = [
   'Zimbabwe',
   'Åland Islands',
 ] as const;
+
+export const GENDER_OPTIONS = [
+  { value: 'male', label: 'Male' },
+  { value: 'female', label: 'Female' },
+] as const;

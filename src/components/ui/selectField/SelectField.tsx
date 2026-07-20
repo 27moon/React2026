@@ -3,7 +3,7 @@ import React from 'react';
 type SelectFieldProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
   id: string;
   label: string;
-  options: { value: string; label: string }[];
+  options: readonly { value: string; label: string }[];
   inputRef?: React.Ref<HTMLSelectElement>;
 };
 

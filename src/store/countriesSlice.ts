@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { countryList } from '../utils/countries';
+import { countryList } from '../utils/constants';
 import type { RootState } from './store';
 
 type CountriesState = {

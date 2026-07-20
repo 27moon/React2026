@@ -9,6 +9,7 @@ import { PasswordStrengthIndicator } from '../../ui/passwordStrengthIndicator/Pa
 import { convertFileToBase64 } from '../../../utils/imageConverter';
 import { saveFormData } from '../../../store/formDataSlice';
 import { selectCountriesList } from '../../../store/countriesSlice';
+import { GENDER_OPTIONS } from '../../../utils/constants';
 
 type UncontrolledFormProps = {
   onClose: () => void;
@@ -97,10 +98,7 @@ export const UncontrolledForm = ({ onClose }: UncontrolledFormProps) => {
         id="gender"
         name="gender"
         label="Gender"
-        options={[
-          { value: 'male', label: 'Male' },
-          { value: 'female', label: 'Female' },
-        ]}
+        options={GENDER_OPTIONS}
       />
 
       <CountryField
