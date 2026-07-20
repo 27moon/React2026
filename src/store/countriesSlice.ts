@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { countryList } from '../utils/countries';
 
 type CountriesState = {
-  list: string[];
+  list: readonly string[];
 };
 
 const initialState: CountriesState = {
